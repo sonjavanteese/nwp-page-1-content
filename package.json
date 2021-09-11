@@ -1,5 +1,5 @@
 {
-  "name": "w11",
+  "name": "nwp-page-1-content",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -19,5 +19,20 @@
   "dependencies": {
     "@supabase/supabase-js": "^1.22.5",
     "svelte-stack-router": "^2.4.4"
-  }
+  },
+  "description": "Content for Demo Github Page",
+  "main": "index.html",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sonjavanteese/nwp-page-1-content.git"
+  },
+  "keywords": [
+    "svelte"
+  ],
+  "author": "max",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sonjavanteese/nwp-page-1-content/issues"
+  },
+  "homepage": "https://github.com/sonjavanteese/nwp-page-1-content#readme"
 }
