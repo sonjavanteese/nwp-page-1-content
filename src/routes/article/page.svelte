@@ -1,14 +1,20 @@
 <script>
-  export let classNav = 'h-22 bg-red-700';
-  export let styleNav = '';
+  import Navbar from "../../lib/appbar/navbar.svelte";
+  const nav = [
+    ["Start", "/", "start", true],
+    ["Archiv", "/archiv", "archiv", true],
+    ["Studio", "/studio", "studio", true],
+    ["User", "/user", "user", true]
+  ];
 </script>
 
 <section class="page">
-  <nav class={classNav} style={styleNav}><!-- Placeholder --></nav>
+  <Navbar parker navData={nav} />
   <slot name="header" />
   <div class="scroll">
    <slot><!-- ++++ <SLOT/> ++++ --></slot>
   </div>
+  <slot name="footer" />
 </section>
 
 <style>

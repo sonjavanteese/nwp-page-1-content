@@ -1,125 +1,91 @@
 <script>
-   import {fade} from 'svelte/transition'
-   import {Icon, IconList} from '../lib/components/iconlib'
-   import { Modal, openModal, closeModal } from 'renderless-svelte'
-   import { replace, search, pathname } from "svelte-stack-router"
-   import Page from "./article/page.svelte"
-   let pData = {
+   import IconLibary from "./article/icon-lib.svelte";
+   import Utf8Icon from './article/utf8-icon.svelte';
+   import Icon from '../lib/components/Icon.svelte';
+	import {fade} from 'svelte/transition'
+   import { TabControl, TabControlItem } from 'renderless-svelte'
+   import { pop, push } from "svelte-stack-router";
+   import Navbar from "../lib/appbar/navbar.svelte";
+   
+   let pdat = [{
    "header": "Nwp-Icon-Libary",
    "info": "SVG IconLibary for PlainJs or Svelte. Enjoy!",
    "file": "https://nwp-cgn.de/img/toon/vio1/NWP-EE-04.png",
    "name": "Archiv",
    "icon": "archiv",
    "links": []
-   }
-   const showInfo = (obj) => {
-         openModal({name: obj})
-            // .then(payload => openModal("Turtle 🐢 is following " + payload))
-      }
-   console.log(pData)
-   $: if ($search) {
-      let st = $search.replace('?modal=', '')
-      console.log("Search:", st)
-      let data = IconList[st]
-      console.log("Data:", data)
-      showInfo(data)
-   }
+   },{
+   "header": "Nwp-UTF8-Icons",
+   "info": "UTF8 Icons Collection. Enjoy!",
+   "file": "https://nwp-cgn.de/img/toon/vio1/NWP-EE-02.png",
+   "name": "Archiv",
+   "icon": "image",
+   "links": []
+   }];
+   let pData = {}
+   let pid = 0
+   $: pData = pdat[pid]
 </script>
 
-<svelte:window on:keyup={ev=>ev.key === 'Escape' && closeModal()}></svelte:window>
-
-<Modal let:payload let:close>
-	<section on:click={closeModal} class="fixed top-0 left-0 right-0 bottom-0 bg-dark-100 opacity-50 z-20"></section>
-	<section transition:fade={{duratio: 200, derlay: 100}} class="fixed top-24 w-full z-30">
-		<aside class="w-full max-w-lg mx-auto border rounded-xl bg-light-50">
-			<header class="flex items-center border-b py-1 px-4"> <span class="flex-grow">Use Icon</span>
-				<button class="focus:outline-none p-2" on:click={close} on:click={()=>replace($pathname)}>
-					<Icon name="close" />
-				</button>
-			</header>
-			<article class=""> 
-<div class="px-4 py-2">
-   <h4 class="h2 uppercase">{payload.name}</h4>
-</div>
-<div class="px-4 py-1 font-semibold italic text-gray-500">
-   HTML
-</div>
-<div>
-<pre class="code">
-&lt;svg class=&quot;icon nwp-{payload.name}&quot; style=&quot;font-size: 1rem&quot;&gt;
-   &lt;use xlink:href=&quot;#nwp-{payload.name}&quot;&gt;&lt;/use&gt;
-&lt;/svg&gt;   
-</pre>
-<div class="px-4 py-1 font-semibold italic text-gray-500">
-   Svelte
-</div>
-<div>
-<pre class="code rounded-b-xl">
-&lt;Icon name=&quot;{payload.name}&quot; size=&quot;1rem&quot; /&gt;  
-</pre>
-</div>
-			</article>
-		</aside>
-	</section>
-</Modal>
-
-<Page>
-	<header slot="header" class="py-8 border-b">
+<section class="page">
+   <Navbar parker>
+      <svelte:fragment slot="brand">
+         <button class="nav-item h4 font-semibold" on:click={() => push('/')}>
+            &#10094;
+         </button>
+         <h4>nwp-app</h4>
+	   </svelte:fragment>
+   </Navbar>
+   <header data-slot="header" class="py-12 px-8 border-b">
 		<div class="container mx-auto px-4 text-center text-gray-600">
-			<div class="text-2xl font-semibold">{pData.header}</div>
+			<div class="h2 font-semibold mb-4">{pData.header}</div>
 			<div class="text-sm font-thin">{pData.info}</div>
 		</div>
 	</header>
-	<article class="content smol-css-grid">
-      {#each IconList as item, i}
-		<a href="#{$pathname}?modal={i}">
-			<figure class="flex flex-col justify-centers text-center border rounded-lg text-gray-500"> <span class="flex-grow py-12">
-            <Icon size="6rem" name={item} />
-         </span>
-				<span class="py-1 border-t uppercase">{item}</span>
-			</figure>
-		</a>
-      {/each}
-   </article>
-
-   
-<details>
-    <summary class="max-w-4xl mx-auto px-4">
-      <div class="text-center">Page Data</div>
-   </summary>
-   <article>
-   <pre class="code">{JSON.stringify(pData, null, 2)}</pre>
-   </article>
-  
-</details>
-   
-</Page>
+   <TabControl>
+      <div class="pb-2 border-b" slot="tabs" let:tabs>
+         <nav class="w-full max-w-4xl mx-auto tabs-bar">        
+            {#each tabs as { active, disabled, payload, select, id }, i}
+                  <button class="button" class:active on:click="{select}" on:click={() => pid = i} {disabled}>
+                     <Icon name={payload.icon} />
+                     <span>{payload.name}</span>
+                  </button>
+            {/each}
+         </nav>
+      </div>
+      <div class="scroll">
+         <TabControlItem id="S" payload={{name: "Icon Libary", icon: "image"}} active>
+            <div out:fade={{delay: 0, duration: 300}} in:fade={{delay: 320, duration: 300}}>
+               <IconLibary />
+            </div>
+         </TabControlItem>
+         <TabControlItem id="R" payload={{name: "UTF8 Icons", icon: "compass"}}>
+            <div out:fade={{delay: 0, duration: 300}} in:fade={{delay: 320, duration: 300}}>
+               <Utf8Icon />
+            </div>
+         </TabControlItem>
+      </div>
+   </TabControl>
+</section>
 
 <style>
-	.smol-css-grid {
-	  --min: 180px;
-	  --gap: 1rem;
-	  display: grid;
-	  grid-gap: var(--gap);
-	  /* min() with 100% prevents overflow
-	  in extra narrow spaces */
-	  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--min)), 1fr));
-	}
-   :not(pre) > code[class*="code"], pre[class*="code"] {
-      background: rgb(31, 36, 48);
-      color: rgba(251, 191, 36, 1);
+   .tabs-bar {
+      @apply flex items-center max-w-4xl mx-auto;
    }
-   pre[class*="code"] {
-      padding: 1rem;
-      /* margin: 0 0 1rem 0; */
-      margin: 0;
-      overflow: auto;
-      max-width: 100%;
+   .button {
+      @apply w-full flex items-center justify-center font-semibold focus:outline-none h-12 text-gray-600 shadow;
    }
-   details > summary {
-      list-style: none;
+   .button {
+      @apply inline-flex items-center justify-center font-semibold focus:outline-none h-12 text-gray-600 shadow;
    }
-   details > summary::marker {
-      display: none;
+   .button.active {
+      @apply bg-gray-100 text-blue-700;
    }
+   .button>span {
+      @apply pl-4;
+   }
+
 </style>
+
+
+

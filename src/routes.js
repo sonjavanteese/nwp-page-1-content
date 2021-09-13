@@ -4,6 +4,7 @@ import Archiv from './routes/archiv.svelte';
  import Start from './routes/start.svelte';
  import NotFound from './routes/static/not-found.svelte';
  import Studio from './routes/studio.svelte';
+ import StudioDetails from './routes/studio-details.svelte';
  import User from './routes/user.svelte';
 
 import { supabase } from './routes/user/supabase';
@@ -15,9 +16,12 @@ const routes = {
         component: Archiv,
         guard: () => user(),
     },
-
     '/studio': {
         component: Studio,
+        guard: () => user(),
+    },
+    '/studio/:id': {
+        component: StudioDetails,
         guard: () => user(),
     },
     '/user': User,
@@ -29,26 +33,8 @@ export default routes;
 
 
 // @index(['./routes/*.svelte', './routes/user/*.svelte', './routes/static/*.svelte'], (f, _, e) => `${e.isFirst ? '/* const nav = [ \n' : ''} ["${_.pascalCase(f.name)}", "/${f.name}", "${f.name}"]${e.isLast ? '\n] */;' : ','}`)
-/* const nav = [ 
- ["Archiv", "/archiv", "archiv"],
- ["Start", "/start", "start"],
- ["NotFound", "/not-found", "not-found"],
- ["Studio", "/studio", "studio"],
- ["User", "/user", "user"],
- ["Details", "/details", "details"],
- ["Login", "/login", "login"],
- ["Profil", "/profil", "profil"]
-] */;
 // @endindex
 // @index(['./routes/*.svelte', './routes/static/*.svelte', './routes/article/*.svelte', './routes/article/*.md'], (f, _, e) => `import ${_.pascalCase(f.name)} from '${f.path}${f.ext}';`)
-
 // @endindex
 // @index(['./routes/*.svelte', './routes/static/*.svelte'], (f, _, e) => `${e.isFirst ? '/* const routes = { \n' : ''}'/${f.name}': ${_.pascalCase(f.name)}${e.isLast ? '\n} */;' : ','}`)
-/* const routes = { 
-'/archiv': Archiv,
-'/start': Start,
-'/not-found': NotFound,
-'/studio': Studio,
-'/user': User
-} */;
 // @endindex

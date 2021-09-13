@@ -1,8 +1,7 @@
 <script>
-	import { userObj, userData } from '../supabase';
+  import { userObj, userData } from '../supabase';
   import { pathname } from "svelte-stack-router"
   import Icon from '../components/Icon.svelte';
-  //import logo from '../../assets/logo2.svg';
   export let secondary = false;
   export let dark = false;
   export let parker = false;
@@ -17,12 +16,13 @@
     {$userData ? `${ $userData.username } | ` : ''}
     <span class="px-1"></span>
     {$userObj ? $userObj.email : '3:00'}
-
 </div>
 <section class="header" class:secondary="{secondary}" class:parker="{parker}" class:dark="{dark}">
     <div class="container mx-auto px-4">
   <nav class="flex-bar">
+    <slot name="brand">
     <a href="#/" class="nav-item"><img style="height: 50px; width: auto;" id="loggo" src="https://nwp-cgn.de/img/poser/logo-cgn.svg"></a>
+    </slot>
     <div class="titel" class:center="{center}"><slot name="label" /></div>
     {#each navData as [name, path], i}
       <a href="#{path}" class="nav-item" class:active={$pathname === path}>{name}</a>
@@ -111,7 +111,7 @@
       align-items: center;
   }
 
-  .nav-item {
+  :global(.nav-item) {
       display: inline-flex;
       flex-wrap: nowrap;
       align-items: center;
@@ -119,21 +119,26 @@
       padding: 0 0.5rem;
       min-height: var(--navbar-body-height);
       min-width: var(--navbar-body-width);
+      outline: none;
+      cursor: pointer;
+  }
+  :global(.nav-item:focus) {
+      outline: none;
       cursor: pointer;
   }
 
-  .nav-item > * {
+  :global(.nav-item > *) {
       align-self: center;
   }
 
-  .nav-item svg {
+  :global(.nav-item svg) {
       color: var(--navbar-bar-color-btn);
   }
-  .nav-item.active svg {
+  :global(.nav-item.active svg) {
       color: var(--navbar-bar-color-btn-act);
   }
 
-  .nav-item.active {
+  :global(.nav-item.active) {
       background-color: var(--navbar-item-active);
   }
 </style>

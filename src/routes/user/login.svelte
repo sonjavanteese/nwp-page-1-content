@@ -18,10 +18,10 @@
       loading = false
     }
   }
-  const setFormData = () => {
-    email = ''
-    password =''
-  }
+  const setFormData= () => {
+   email=''
+   password=''
+  }
 </script>
   
 <section class="max-w-lg mx-auto py-4">

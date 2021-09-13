@@ -26,28 +26,23 @@
 /* -------------------------------------------------------------------------- */
 /*                                    Page                                    */
 /* -------------------------------------------------------------------------- */
-body {
+body, 
+#app,
+.stack-router-mount-point {
   padding: 0;
   margin: 0;
   overflow: hidden;
+  height: 100%;
+  width: 100%;
 }
 
-#app {
-  display: flex;
-  flex-direction: column;
+#app > .stack-router-mount-point {
   position: absolute;
   top: 0;
   bottom: 0;
   right: 0;
   left: 0;
-}
-
-#app > .stack-router-mount-point {
-  height: 100%;
-  width: 100%;
-  flex: 1 1 auto;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .sector-1 {
@@ -205,4 +200,9 @@ label {
 .centering {
   display: grid;
   place-content: center;
+}
+
+body {
+  background-color: #ffffff;
+  color: #424656;
 }
